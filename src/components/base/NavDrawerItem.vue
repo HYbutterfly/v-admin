@@ -18,16 +18,15 @@
                     {{expanded? "mdi-chevron-up": "mdi-chevron-down"}}
                 </v-icon>
         </v-list-item>
-        <transition name="fade">
-            <div class="blue-grey darken-3" v-if="item.children && expanded">
-                <nav-drawer-item
-                    v-for="child in item.children"
-                    :key="child.title"
-                    :item="child"
-                    :lv="lv + 1"
-                />
-            </div>
-        </transition>
+        <div ref="child" class="blue-grey darken-3" :style="child_style" v-if="item.children">
+            <nav-drawer-item
+                v-for="child in item.children"
+                :key="child.title"
+                :item="child"
+                :lv="lv + 1"
+                :update_parent_height="append => update_height(append)"
+            />
+        </div>
     </div>
 </template>
 
@@ -36,14 +35,28 @@
 
 export default {
     name: "NavDrawerItem",
-    props: ["item", "lv"],
+    props: ["item", "lv", "update_parent_height"],
     data () {
         return {
+            child_height: 0,
+            child_style: {
+                maxHeight: 0,
+                overflow: "hidden",
+                transition: "max-height 0.3s ease-out"
+            },
             route_path: this.$route.path,
             expanded: false,
         }
     },
     mounted () {
+        if (this.item.children) {
+            this.child_style.transition = "max-height " + 0.1*this.item.children.length + "s ease-out";
+        }
+        
+        if (this.$refs.child) {
+            this.child_height = this.$refs.child.scrollHeight;
+        }
+        
         this.$router.afterEach((to) => {
             this.route_path = to.path;
         })
@@ -59,12 +72,26 @@ export default {
         }
     },
     methods: {
+        update_height (append_height) {
+            if (this.$refs.child) {
+                this.child_height = this.$refs.child.scrollHeight + append_height;
+                this.child_style.maxHeight = this.child_height + "px";
+            }
+        },
         goto (path) {
             this.$router.push(path);
         },
         handleClick () {
             if (this.item.children) {
                 this.expanded = !this.expanded;
+                if (this.expanded) {
+                    this.child_style.maxHeight = this.child_height + "px";
+                    if (this.update_parent_height) {
+                        this.update_parent_height(this.child_height);
+                    }
+                } else {
+                    this.child_style.maxHeight = "0px";
+                }
             } else {
                 this.goto(this.item.path);
             }
