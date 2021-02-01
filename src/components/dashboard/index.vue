@@ -8,7 +8,7 @@
                 lg="3"
                 class="center"
             >
-                <stats-card icon="mdi-account" title="New Visits" :num="837912" icon_color="#40c9c6"/>
+                <stats-card icon="mdi-account-multiple" title="New Visits" :num="837912" icon_color="#40c9c6"/>
             </v-col>
 
             <v-col

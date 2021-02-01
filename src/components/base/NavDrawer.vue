@@ -7,7 +7,7 @@
     >
     <v-list-item class="px-2">
     <v-list-item-avatar>
-        <img src="@/assets/head.jpg" />
+        <v-img src="@/assets/head.jpg"></v-img>
     </v-list-item-avatar>
 
     <v-list-item-title>{{$store.state.me.nick}}</v-list-item-title>
