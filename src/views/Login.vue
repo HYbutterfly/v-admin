@@ -76,6 +76,9 @@ export default {
     },
     methods: {
         login() {
+            this.$store.commit("login", {
+                token: 'TOKEN'
+            })
             this.$router.push({path: "/home"});
         }
     },

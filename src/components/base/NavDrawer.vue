@@ -3,10 +3,11 @@
         app
         dark
         v-model="drawer"
+        @transitionend="handleTransitionend"
     >
     <v-list-item class="px-2">
     <v-list-item-avatar>
-        <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+        <img src="@/assets/head.jpg" />
     </v-list-item-avatar>
 
     <v-list-item-title>{{$store.state.me.nick}}</v-list-item-title>
@@ -31,10 +32,16 @@ import ec from '@/eventcenter'
 import { drawers } from '@/config/routes'
 
 export default {
+    name: "NavDrawer",
     components: {
         NavDrawerItem
     },
     mounted () {
+        if (!this.is_mobile) {
+            this.$nextTick(() => {
+                ec.pub('window_resize');
+            })
+        }
         ec.sub("reverse_drawer", this, () => {
             this.drawer = !this.drawer;
         })
@@ -42,10 +49,17 @@ export default {
             ec.unsub("reverse_drawer", this);
         })
     },
+    methods : {
+        handleTransitionend (e) {
+            if ((!this.is_mobile) && e.propertyName == "visibility") {
+                ec.pub('window_resize');
+            }
+        }
+    },
     data () {
         return {
             drawer: null,
-            items: drawers
+            items: drawers,
             // items: [
             //     { title: '嵌套', icon: 'mdi-layers', children: [
             //         {

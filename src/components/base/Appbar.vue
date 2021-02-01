@@ -13,12 +13,12 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn icon>
-            <v-icon>mdi-heart</v-icon>
-        </v-btn>
-
-        <v-btn icon>
+        <!-- <v-btn icon>
             <v-icon>mdi-magnify</v-icon>
+        </v-btn> -->
+        
+        <v-btn icon @click="goto_github">
+            <v-icon>mdi-github</v-icon>
         </v-btn>
 
       <v-menu
@@ -36,13 +36,29 @@
         </template>
 
         <v-list>
-          <v-list-item
-            v-for="n in 5"
-            :key="n"
-            @click="() => {}"
-          >
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
-          </v-list-item>
+            <v-list-item
+                @click="() => {}"
+            >
+                <v-list-item-title>Option1</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item
+                @click="() => {}"
+            >
+                <v-list-item-title>Option2</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item
+                @click="() => {}"
+            >
+                <v-list-item-title>Option3</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item
+                @click="logout"
+            >
+                <v-list-item-title>退出登录</v-list-item-title>
+            </v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -85,8 +101,15 @@ function path2crumbs(path) {
 
 export default {
     methods: {
+        logout () {
+            this.$store.commit('logout');
+            this.$router.push('/');
+        },
         reverse_drawer () {
             ec.pub("reverse_drawer");
+        },
+        goto_github () {
+            window.open('https://github.com/HYbutterfly/v-admin');
         }
     },
     created () {

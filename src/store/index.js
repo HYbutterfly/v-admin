@@ -5,14 +5,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        token: null,
         me: {
             id: "123456",
-            head: "https://randomuser.me/api/portraits/men/85.jpg",
             nick: "JulyWind",
             role: "editor"
         }
     },
     mutations: {
+		login (state, data) {
+			state.token = data.token;
+			// state.me = data.me;
+        },
+        logout(state) {
+            state.token = null;
+        }
     },
     actions: {
     },

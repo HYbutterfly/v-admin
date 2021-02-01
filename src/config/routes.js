@@ -9,14 +9,17 @@ const routes = [
         path: '/home',
         title: "首页",
         component: () => import('@/views/Home.vue'),
-        default: () => import('@/components/Dashboard.vue'),
+        default: () => import('@/components/dashboard'),
+        meta: {
+            needLogined: true
+        },
         children: [
             {
                 path: "",
                 title: "首页",
                 icon: "mdi-home",
                 component: () => import('@/views/Home.vue'),
-                default: () => import('@/components/Dashboard.vue'),
+                default: () => import('@/components/dashboard'),
             },
             {
                 path: "nesting",
@@ -55,6 +58,7 @@ const routes = [
                 path: 'error',
                 title: '错误页面',
                 icon: 'mdi-emoticon-sad-outline',
+                // hideInNav: true,
                 children: [
                     {
                         path: "401",
@@ -69,18 +73,18 @@ const routes = [
                 ]
             },
             {
-                path: 'my',
-                title: '我的',
-                icon: 'mdi-account',
-                component: () => import('@/components/My.vue'),
+                // permission: ['admin'],
+                path: 'table',
+                title: '表格',
+                icon: 'mdi-account-group-outline',
+                component: () => import('@/components/Table.vue'),
             },
             {
-                permission: ['admin'],
-                path: 'users',
-                title: '用户管理',
-                icon: 'mdi-account-group-outline',
-                component: () => import('@/components/Users.vue'),
-            }
+                path: 'about',
+                title: '联系作者',
+                icon: 'mdi-heart',
+                component: () => import('@/components/About.vue'),
+            },
         ]
     }
 ]
@@ -88,7 +92,7 @@ const routes = [
 function parse(list, f, default_params) {
     list.forEach(route => {
         var params = f(route, default_params);
-        if (route.children) {
+        if (params != 'break' && route.children) {
             parse(route.children, f, params)
         }
     })
@@ -121,6 +125,12 @@ parse(routes, (route, root)=> {
         meta: { permission: route.permission, fullpath: fullpath }
     }
 
+    if (route.meta) {
+        for (const key in route.meta) {
+            real_route.meta[key] = route.meta[key];
+        }
+    }
+
     if (root && root.xpath) {
         real_route.path = root.xpath + '/' + route.path;
     }
@@ -148,6 +158,11 @@ parse(routes, (route, root)=> {
 export let drawers = [];
 
 parse(routes[1].children, (route, root) => {
+
+    if (route.hideInNav) {
+        return 'break';
+    }
+
     let path = route.path =="" ? root.path : root.path + '/' + route.path;
     let drawer = {
         path: path,

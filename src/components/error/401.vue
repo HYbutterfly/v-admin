@@ -14,7 +14,7 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
     /* html {
         font-size: 62.5%;
     } */
