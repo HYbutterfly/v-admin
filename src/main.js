@@ -4,14 +4,13 @@ import vuetify from './plugins/vuetify';
 import store from './store'
 import router from './router'
 import axios from 'axios'
-import conf from './config'
 
 import * as echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
 
-Vue.prototype.post = function (path, args) {  
-    return axios.post(conf.server_url + path, args);
+Vue.prototype.post = function (path, args) {
+    return axios.post(path, args);
 }
 
 if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
