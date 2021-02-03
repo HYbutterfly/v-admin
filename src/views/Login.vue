@@ -27,11 +27,11 @@
                         :type="show_pswd ? 'text' : 'password'"
                         :rules="[rules.password]"
                     ></v-text-field>
-                    <v-checkbox
+                    <!-- <v-checkbox
                         v-model="remember_pswd"
                         label="记住账号密码"
                     >
-                    </v-checkbox>
+                    </v-checkbox> -->
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -54,7 +54,7 @@ export default {
     data () {
         return {
             show_pswd: false,
-            remember_pswd: true,
+            // remember_pswd: true,
             account: "",
             password: "",
             input_width: null,
@@ -76,16 +76,22 @@ export default {
     },
     methods: {
         login() {
-            this.$store.commit("login", {
-                token: 'TOKEN'
+            this.post('/login', {account: this.account, password: this.password}).then(r => {
+                var data = r.data;
+                console.log(r);
+                if (data.err) {
+                    alert(data.err);
+                } else {
+                    this.$store.commit("login", {
+                        token: data.token
+                    })
+                    this.$router.push({path: "/home"});
+                }
             })
-            this.$router.push({path: "/home"});
         }
     },
     mounted () {
         this.input_width = this.$refs.input.$el.offsetWidth;
-        this.account = this.$cookies.get("account");
-        this.password = this.$cookies.get("password") ? this.$cookies.get("password") : "";
     }
 
 }

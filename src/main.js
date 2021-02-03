@@ -3,14 +3,16 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import store from './store'
 import router from './router'
-import VueCookies from 'vue-cookies'
+import axios from 'axios'
+import conf from './config'
 
 import * as echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
 
-Vue.use(VueCookies);
-Vue.$cookies.config('7d')
+Vue.prototype.post = function (path, args) {  
+    return axios.post(conf.server_url + path, args);
+}
 
 if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
     Vue.prototype.is_mobile = true;
