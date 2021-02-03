@@ -1,23 +1,25 @@
+[PreView](https://v-admin.vercel.app/#/)
+
 # v-admin
 ```
-A vue admin with vuetify
 Yet another vue admin template base with vuetify
 ```
-
-# PreView
-```
-https://v-admin.vercel.app/#/
-```
-
 
 ## Project setup
 ```
 npm install
-@ -18,7 +24,33 @@ npm run serve
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
 npm run build
 ```
 
-### Lints and fixes files
 ### GetStart
 ```
 由于是基于vuetify的UI框架, 所以 v-admin 在移动端的表现也很好.
@@ -26,10 +28,7 @@ npm run build
 有些栏目我们并不想显示, 比如 `错误页面`，配置 hideInNav: true 则不会显示,
 还有一个就是 权限 permission:['admin', 'editor'], 如果定义了该字段, 则只有
 该数组里的人(对应 $store.state.me.role)才有权查看该页面, 没有定义的话则对所有人开放
-
-后面的开发就是基于自身项目需求来开发页面内容
 ```
-npm run lint
 
 ### Tips
 ```
