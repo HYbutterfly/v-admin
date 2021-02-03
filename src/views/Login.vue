@@ -78,12 +78,12 @@ export default {
         login() {
             this.post('api/login', {account: this.account, password: this.password}).then(r => {
                 var data = r.data;
-                console.log(r);
                 if (data.err) {
                     alert(data.err);
                 } else {
                     this.$store.commit("login", {
-                        token: data.token
+                        token: data.token,
+                        me: data.me
                     })
                     this.$router.push({path: "/home"});
                 }

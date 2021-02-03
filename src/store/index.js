@@ -15,7 +15,7 @@ export default new Vuex.Store({
     mutations: {
 		login (state, data) {
 			state.token = data.token;
-			// state.me = data.me;
+			state.me = data.me;
         },
         logout(state) {
             state.token = null;
