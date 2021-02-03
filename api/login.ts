@@ -5,7 +5,7 @@ import { NowRequest, NowResponse } from '@vercel/node'
 export default (request: NowRequest, response: NowResponse) => {
 
     var data = request.body;
-    if (data.account == 'admin' && data.password == '123456') {
+    if (data && data.account == 'admin' && data.password == '123456') {
         response.status(200).send({
             token: 'V-ADMIN-TOKN'
         });
